@@ -4,7 +4,7 @@ import Book from "./Book";
 
 class BookList extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array
   };
 
   render() {
@@ -12,11 +12,12 @@ class BookList extends Component {
 
     return (
       <ol className="books-grid">
-        {books.map(book => (
-          <li key={book.id}>
-            <Book book={book} />
-          </li>
-        ))}
+        {books &&
+          books.map(book => (
+            <li key={book.id}>
+              <Book book={book} />
+            </li>
+          ))}
       </ol>
     );
   }
