@@ -1,19 +1,28 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import * as BooksAPI from "./BooksAPI";
 import Shelf from "./Shelf";
 
 class ShelfPage extends Component {
-  static propTypes = {
-    books: PropTypes.array.isRequired
+  state = {
+    books: []
   };
 
+  componentDidMount() {
+    BooksAPI.getAll().then(books => {
+      this.setState(() => ({
+        books
+      }));
+    });
+  }
+
   render() {
-    const { books } = this.props;
-    const currentlyReadingBooks = books.filter(
+    const currentlyReadingBooks = this.state.books.filter(
       book => book.shelf === "currentlyReading"
     );
-    const wantToReadBooks = books.filter(book => book.shelf === "wantToRead");
-    const readBooks = books.filter(book => book.shelf === "read");
+    const wantToReadBooks = this.state.books.filter(
+      book => book.shelf === "wantToRead"
+    );
+    const readBooks = this.state.books.filter(book => book.shelf === "read");
 
     return (
       <div className="list-books">
@@ -28,9 +37,7 @@ class ShelfPage extends Component {
           </div>
         </div>
         <div className="open-search">
-          <button onClick={() => this.setState({ showSearchPage: true })}>
-            Add a book
-          </button>
+          <button>Add a book</button>
         </div>
       </div>
     );
