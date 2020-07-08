@@ -27,7 +27,11 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? <SearchPage /> : <ShelfPage />}
+        {this.state.showSearchPage ? (
+          <SearchPage />
+        ) : (
+          <ShelfPage books={this.state.books} />
+        )}
       </div>
     );
   }
