@@ -10,7 +10,7 @@ class SearchPage extends Component {
     filteredBooks: []
   };
 
-  handleChange = debounce(text => {
+  handleTextChange = debounce(text => {
     const value = text;
     this.setState({
       query: value
@@ -30,6 +30,19 @@ class SearchPage extends Component {
     this.setState({ filteredBooks: [] });
   };
 
+  changeShelf = (bookToChange, shelf) => {
+    let updatedBook = this.state.filteredBooks.find(
+      book => book.id === bookToChange.id
+    );
+    updatedBook.shelf = shelf;
+    this.setState(currentState => ({
+      filteredBooks: currentState.filteredBooks.map(book =>
+        book.id !== bookToChange.id ? book : updatedBook
+      )
+    }));
+    BooksAPI.update(bookToChange, shelf);
+  };
+
   render() {
     return (
       <div className="search-books">
@@ -41,12 +54,15 @@ class SearchPage extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              onChange={event => this.handleChange(event.target.value)}
+              onChange={event => this.handleTextChange(event.target.value)}
             />
           </div>
         </div>
         <div className="search-books-results">
-          <BookList books={this.state.filteredBooks} />
+          <BookList
+            books={this.state.filteredBooks}
+            changeShelf={this.changeShelf}
+          />
         </div>
       </div>
     );

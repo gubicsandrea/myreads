@@ -5,16 +5,17 @@ import BookList from "./BookList";
 class Shelf extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    changeshelf: PropTypes.func.isRequired
   };
 
   render() {
-    const { title, books } = this.props;
+    const { title, books, changeShelf } = this.props;
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
-          <BookList books={books} />
+          <BookList books={books} changeShelf={changeShelf} />
         </div>
       </div>
     );

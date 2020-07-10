@@ -16,6 +16,19 @@ class ShelfPage extends Component {
     });
   }
 
+  changeShelf = (bookToChange, shelf) => {
+    let updatedBook = this.state.books.find(
+      book => book.id === bookToChange.id
+    );
+    updatedBook.shelf = shelf;
+    this.setState(currentState => ({
+      books: currentState.books
+        .filter(book => book.id !== bookToChange.id)
+        .concat([updatedBook])
+    }));
+    BooksAPI.update(bookToChange, shelf);
+  };
+
   render() {
     const currentlyReadingBooks = this.state.books.filter(
       book => book.shelf === "currentlyReading"
@@ -32,9 +45,21 @@ class ShelfPage extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <Shelf title="Currently Reading" books={currentlyReadingBooks} />
-            <Shelf title="Want to Read" books={wantToReadBooks} />
-            <Shelf title="Read" books={readBooks} />
+            <Shelf
+              title="Currently Reading"
+              books={currentlyReadingBooks}
+              changeShelf={this.changeShelf}
+            />
+            <Shelf
+              title="Want to Read"
+              books={wantToReadBooks}
+              changeShelf={this.changeShelf}
+            />
+            <Shelf
+              title="Read"
+              books={readBooks}
+              changeShelf={this.changeShelf}
+            />
           </div>
         </div>
         <div className="open-search">

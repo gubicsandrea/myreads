@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 class ChangeShelfForm extends Component {
   static propTypes = {
-    currentShelf: PropTypes.string
+    currentShelf: PropTypes.string,
+    changeShelf: PropTypes.func.isRequired
   };
 
   state = {
@@ -21,12 +22,15 @@ class ChangeShelfForm extends Component {
   };
 
   render() {
-    let { currentShelf } = this.props;
-    currentShelf = currentShelf || "none";
+    let { book, changeShelf } = this.props;
+    let currentShelf = book.shelf || "none";
 
     return (
       <div className="book-shelf-changer">
-        <select defaultValue={currentShelf}>
+        <select
+          defaultValue={currentShelf}
+          onChange={event => changeShelf(book, event.target.value)}
+        >
           {this.state.options.map(option => (
             <option
               key={option.value}

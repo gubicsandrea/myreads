@@ -4,11 +4,13 @@ import ChangeShelfForm from "./ChangeShelfForm";
 
 class Book extends Component {
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    changeShelf: PropTypes.func.isRequired
   };
 
   render() {
-    const { book } = this.props;
+    const { book, changeShelf } = this.props;
+
     return (
       <div className="book">
         <div className="book-top">
@@ -20,7 +22,7 @@ class Book extends Component {
               backgroundImage: `url(${book.imageLinks.thumbnail})`
             }}
           ></div>
-          <ChangeShelfForm currentShelf={book.shelf} />
+          <ChangeShelfForm book={book} changeShelf={changeShelf} />
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">
