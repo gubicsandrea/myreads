@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as BooksAPI from "./BooksAPI";
 import Shelf from "./Shelf";
+import { Link } from "react-router-dom";
 
 class ShelfPage extends Component {
   state = {
@@ -37,7 +38,9 @@ class ShelfPage extends Component {
           </div>
         </div>
         <div className="open-search">
-          <button>Add a book</button>
+          <Link to="/search">
+            <button>Add a book</button>
+          </Link>
         </div>
       </div>
     );
