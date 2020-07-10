@@ -1,42 +1,15 @@
 import React, { Component } from "react";
-import * as BooksAPI from "./BooksAPI";
 import Shelf from "./Shelf";
 import { Link } from "react-router-dom";
 
 class ShelfPage extends Component {
-  state = {
-    books: []
-  };
-
-  componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      this.setState(() => ({
-        books
-      }));
-    });
-  }
-
-  changeShelf = (bookToChange, shelf) => {
-    let updatedBook = this.state.books.find(
-      book => book.id === bookToChange.id
-    );
-    updatedBook.shelf = shelf;
-    this.setState(currentState => ({
-      books: currentState.books
-        .filter(book => book.id !== bookToChange.id)
-        .concat([updatedBook])
-    }));
-    BooksAPI.update(bookToChange, shelf);
-  };
-
   render() {
-    const currentlyReadingBooks = this.state.books.filter(
+    const { books, changeShelf } = this.props;
+    const currentlyReadingBooks = books.filter(
       book => book.shelf === "currentlyReading"
     );
-    const wantToReadBooks = this.state.books.filter(
-      book => book.shelf === "wantToRead"
-    );
-    const readBooks = this.state.books.filter(book => book.shelf === "read");
+    const wantToReadBooks = books.filter(book => book.shelf === "wantToRead");
+    const readBooks = books.filter(book => book.shelf === "read");
 
     return (
       <div className="list-books">
@@ -48,18 +21,14 @@ class ShelfPage extends Component {
             <Shelf
               title="Currently Reading"
               books={currentlyReadingBooks}
-              changeShelf={this.changeShelf}
+              changeShelf={changeShelf}
             />
             <Shelf
               title="Want to Read"
               books={wantToReadBooks}
-              changeShelf={this.changeShelf}
+              changeShelf={changeShelf}
             />
-            <Shelf
-              title="Read"
-              books={readBooks}
-              changeShelf={this.changeShelf}
-            />
+            <Shelf title="Read" books={readBooks} changeShelf={changeShelf} />
           </div>
         </div>
         <div className="open-search">

@@ -13,12 +13,13 @@ class BookList extends Component {
 
     return (
       <ol className="books-grid">
-        {books &&
-          books.map(book => (
-            <li key={book.id}>
-              <Book book={book} changeShelf={changeShelf} />
-            </li>
-          ))}
+        {books
+          ? books.map(book => (
+              <li key={book.id}>
+                <Book book={book} changeShelf={changeShelf} />
+              </li>
+            ))
+          : null}
       </ol>
     );
   }

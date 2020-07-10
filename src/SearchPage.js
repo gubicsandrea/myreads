@@ -20,27 +20,26 @@ class SearchPage extends Component {
 
   getBooks = value => {
     BooksAPI.search(value).then(books => {
-      this.setState({
-        filteredBooks: books
-      });
+      books.hasOwnProperty("error")
+        ? this.emptySearch()
+        : this.updateFilteredBooksShelf(books);
+    });
+  };
+
+  updateFilteredBooksShelf = books => {
+    books.forEach(book => {
+      let bookOnShelf = this.props.books.find(
+        element => element.id === book.id
+      );
+      book.shelf = bookOnShelf ? bookOnShelf.shelf : "none";
+    });
+    this.setState({
+      filteredBooks: books
     });
   };
 
   emptySearch = () => {
     this.setState({ filteredBooks: [] });
-  };
-
-  changeShelf = (bookToChange, shelf) => {
-    let updatedBook = this.state.filteredBooks.find(
-      book => book.id === bookToChange.id
-    );
-    updatedBook.shelf = shelf;
-    this.setState(currentState => ({
-      filteredBooks: currentState.filteredBooks.map(book =>
-        book.id !== bookToChange.id ? book : updatedBook
-      )
-    }));
-    BooksAPI.update(bookToChange, shelf);
   };
 
   render() {
@@ -61,7 +60,7 @@ class SearchPage extends Component {
         <div className="search-books-results">
           <BookList
             books={this.state.filteredBooks}
-            changeShelf={this.changeShelf}
+            changeShelf={this.props.changeShelf}
           />
         </div>
       </div>
