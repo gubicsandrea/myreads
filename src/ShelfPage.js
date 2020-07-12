@@ -1,42 +1,38 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import Shelf from "./Shelf";
 import { Link } from "react-router-dom";
 
-class ShelfPage extends Component {
-  render() {
-    const { books, changeShelf } = this.props;
-    const currentlyReadingBooks = books.filter(
-      book => book.shelf === "currentlyReading"
-    );
-    const wantToReadBooks = books.filter(book => book.shelf === "wantToRead");
-    const readBooks = books.filter(book => book.shelf === "read");
-
-    return (
-      <div className="list-books">
-        <div className="list-books-title">
-          <h1>MyReads</h1>
-        </div>
-        <div className="list-books-content">
-          <div>
+const ShelfPage = ({ books, changeShelf, availableShelves }) => {
+  return (
+    <div className="list-books">
+      <div className="list-books-title">
+        <h1>MyReads</h1>
+      </div>
+      <div className="list-books-content">
+        <div>
+          {availableShelves.map(shelf => (
             <Shelf
-              title="Currently Reading"
-              books={currentlyReadingBooks}
+              key={shelf.id}
+              title={shelf.title}
+              books={books.filter(book => book.shelf === shelf.id)}
               changeShelf={changeShelf}
+              availableShelves={availableShelves}
             />
-            <Shelf
-              title="Want to Read"
-              books={wantToReadBooks}
-              changeShelf={changeShelf}
-            />
-            <Shelf title="Read" books={readBooks} changeShelf={changeShelf} />
-          </div>
-        </div>
-        <div className="open-search">
-          <Link to="/search">Add a book</Link>
+          ))}
         </div>
       </div>
-    );
-  }
-}
+      <div className="open-search">
+        <Link to="/search">Add a book</Link>
+      </div>
+    </div>
+  );
+};
+
+ShelfPage.propTypes = {
+  books: PropTypes.array.isRequired,
+  changeShelf: PropTypes.func.isRequired,
+  availableShelves: PropTypes.array
+};
 
 export default ShelfPage;

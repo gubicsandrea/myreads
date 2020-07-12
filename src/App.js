@@ -7,7 +7,12 @@ import * as BooksAPI from "./BooksAPI";
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    shelves: [
+      { title: "Currently Reading", id: "currentlyReading" },
+      { title: "Want to Read", id: "wantToRead" },
+      { title: "Read", id: "read" }
+    ]
   };
 
   componentDidMount() {
@@ -41,6 +46,7 @@ class BooksApp extends React.Component {
             <ShelfPage
               books={this.state.books}
               changeShelf={this.changeShelf}
+              availableShelves={this.state.shelves}
             />
           )}
         />
@@ -50,6 +56,7 @@ class BooksApp extends React.Component {
             <SearchPage
               books={this.state.books}
               changeShelf={this.changeShelf}
+              availableShelves={this.state.shelves}
             />
           )}
         />

@@ -16,7 +16,7 @@ class SearchPage extends Component {
       query: value
     });
     value !== "" ? this.getBooks(value) : this.emptySearch();
-  }, 200);
+  }, 500);
 
   getBooks = value => {
     BooksAPI.search(value).then(books => {
@@ -61,6 +61,7 @@ class SearchPage extends Component {
           <BookList
             books={this.state.filteredBooks}
             changeShelf={this.props.changeShelf}
+            availableShelves={this.props.availableShelves}
           />
         </div>
       </div>
